@@ -38,12 +38,12 @@ defimpl Enumerable, for: Ivf.Stream do
 
   def reduce(_list, {:halt, acc}, _fun), do: {:halted, acc}
 
-  def reduce(%Ivf.Stream{} = stream, {:suspend, acc}, fun),
+  def reduce(stream = %Ivf.Stream{}, {:suspend, acc}, fun),
     do: {:suspended, acc, &reduce(stream, &1, fun)}
 
   def reduce([], {:cont, acc}, _fun), do: {:done, acc}
 
-  def reduce(%Ivf.Stream{file: file} = stream, {:cont, acc}, fun) do
+  def reduce(stream = %Ivf.Stream{file: file}, {:cont, acc}, fun) do
     with <<len::size(32)-little>> <- IO.binread(file, 4),
          <<timestamp::size(64)-little>> <- IO.binread(file, 8),
          frame <- IO.binread(file, len) do

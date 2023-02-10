@@ -4,13 +4,12 @@ defmodule Ivf.MixProject do
   def project do
     [
       app: :ivf,
-      version: "0.1.0",
+      version: "0.1.1",
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       description: description(),
       package: package(),
-      deps: deps(),
-      source_url: "https://github.com/elixir-ecto/postgrex"
+      deps: deps()
     ]
   end
 
@@ -24,8 +23,8 @@ defmodule Ivf.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      # {:dep_from_hexpm, "~> 0.3.0"},
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false}
     ]
   end
 
@@ -35,13 +34,9 @@ defmodule Ivf.MixProject do
 
   defp package() do
     [
-      # This option is only needed when you don't want to use the OTP application name
-      name: "postgrex",
-      # These are the default files included in the package
-      files: ~w(lib priv .formatter.exs mix.exs README* readme* LICENSE*
-                license* CHANGELOG* changelog* src),
-      licenses: ["Apache-2.0"],
-      links: %{"GitHub" => "https://github.com/elixir-ecto/postgrex"}
+      files: ~w(lib .formatter.exs mix.exs README.md LICENSE*),
+      licenses: ["0BSD"],
+      links: %{"GitHub" => "https://github.com/jnnks/ivf"}
     ]
   end
 end
