@@ -1,4 +1,3 @@
-
 defmodule Ivf.Stream do
   defstruct [:file]
 
@@ -17,14 +16,13 @@ defmodule Ivf.Stream do
          <<tb_num::32-little>> <- IO.binread(file, 4),
          <<frame_count::32-little>> <- IO.binread(file, 4),
          <<_unused_zeroes::32>> <- IO.binread(file, 4) do
-      %Ivf.Props{
+      Ivf.Props.new(
         codec: codec,
         width: width,
         height: height,
-        tb_den: tb_den,
-        tb_num: tb_num,
+        time_base: {tb_num, tb_den},
         frame_count: frame_count
-      }
+      )
     else
       _ -> raise RuntimeError, "malformed file header"
     end

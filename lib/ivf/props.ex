@@ -1,9 +1,24 @@
-
 defmodule Ivf.Props do
-  defstruct [:width, :height, :tb_num, :tb_den, frame_count: 0, codec: "VP80"]
-  def new(), do: %Ivf.Props{}
-  def with_resolution(props, width, height), do: %Ivf.Props{props | width: width, height: height}
+  @moduledoc """
+  Properties of an Ivf video. Use `Ivf.Props.new(keyword())`.
+  """
 
-  def with_time_base(props, tb_num, tb_den),
-    do: %Ivf.Props{props | tb_num: tb_num, tb_den: tb_den}
+  @enforce_keys [:width, :height, :time_base, :frame_count, :codec]
+  defstruct [:width, :height, :time_base, :frame_count, :codec]
+
+  @spec new(
+          codec: binary(),
+          frame_count: pos_integer(),
+          height: pos_integer(),
+          time_base: {pos_integer(), pos_integer()},
+          width: pos_integer()
+        ) :: %Ivf.Props{}
+  def new(opts),
+    do: %Ivf.Props{
+      width: opts[:width] || 16,
+      height: opts[:height] || 16,
+      time_base: opts[:time_base] || {1, 1},
+      frame_count: opts[:frame_count] || 1,
+      codec: opts[:codec] || "VP08"
+    }
 end
